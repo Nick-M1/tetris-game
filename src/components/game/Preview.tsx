@@ -1,5 +1,5 @@
-import {buildBoard} from "../logic/Board";
-import {transferToBoard} from "../logic/Tetrominoes";
+import {buildBoard} from "../../logic/Board";
+import {transferToBoard} from "../../logic/Tetrominoes";
 import BoardCell from "./BoardCell";
 import {memo} from "react";
 

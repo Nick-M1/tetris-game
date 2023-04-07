@@ -30,7 +30,21 @@ module.exports = {
       },
       borderWidth: {
         3: '3px'
-      }
+      },
+      blur: {
+        xs: '2px',
+      },
+
+
+      keyframes: {
+        bounceRight: {
+          '0%, 100%': {transform: 'translateX(-25%)'},
+          '50%': {transform: 'translateX(0%)'},
+        },
+      },
+      animation: {
+        bounceRight: 'bounceRight 1s infinite',
+      },
     },
   },
   plugins: [],

@@ -28,6 +28,12 @@ type GameStats = {
     points: number
 }
 
+type GameStatsStorage = {
+    level: number
+    points: number
+    timestamp: number
+}
+
 type Player = {
     collided: boolean,
     isFastDropping: boolean,

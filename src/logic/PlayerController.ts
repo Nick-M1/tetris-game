@@ -1,7 +1,6 @@
 import {hasCollision, isWithinBoard} from "./Board";
 import {rotate} from "./Tetrominoes";
 import {Action} from "./Input";
-import Board from "../components/Board";
 import {Dispatch, SetStateAction} from "react";
 
 
@@ -81,11 +80,10 @@ const attemptMovement = (board: Board, player: Player, setPlayer: Dispatch<SetSt
         board
     );
 
-    // Did we collide immediately? If so, game over, man!
+    // Did we collide immediately? If so, game over!
     const isGameOver = collided && player.position.row === 0;
     if (isGameOver)
         setGameOver(isGameOver);
-
 
     setPlayer({
         ...player,

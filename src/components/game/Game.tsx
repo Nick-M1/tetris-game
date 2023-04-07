@@ -1,7 +1,8 @@
-import Menu from "./Menu";
+import Menu from "../../pages/Menu";
 import Tetris from "./Tetris";
-import {useGameOver} from "../hooks/useGameOver";
+import {useGameOver} from "../../hooks/useGameOver";
 import {AnimatePresence, motion} from "framer-motion";
+import {useState} from "react";
 
 type Props = {
     rows: number
@@ -9,12 +10,17 @@ type Props = {
 }
 
 const Game = ({ rows, columns }: Props) => {
+    const [homeMenu, setHomeMenu] = useState(true)
+
     const [gameOver, setGameOver, resetGameOver] = useGameOver();
-    const start = () => resetGameOver();
+    const start = () => {
+        resetGameOver()
+        setHomeMenu(false)
+    };
 
     return (
         <AnimatePresence  mode="popLayout" initial={false}>
-            { gameOver ? (
+            { homeMenu ? (
                 <motion.div layout
                     key="menu"
                     className='w-full h-full'
@@ -34,7 +40,7 @@ const Game = ({ rows, columns }: Props) => {
                     transition={{ duration: 0.75, ease: "easeOut" }}
                     exit={{ y: "0%", opacity: 1 }}
                 >
-                    <Tetris rows={rows} columns={columns} setGameOver={setGameOver} />
+                    <Tetris rows={rows} columns={columns} gameOver={gameOver} setGameOver={setGameOver} />
                 </motion.div>
             )}
         </AnimatePresence>

@@ -7,7 +7,7 @@ type HookReturn = [
 ]
 
 export function useGameOver(): HookReturn {
-    const [gameOver, setGameOver] = useState(true);
+    const [gameOver, setGameOver] = useState(false);
 
     const resetGameOver = useCallback(() => {
         setGameOver(false);
