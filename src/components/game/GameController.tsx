@@ -5,6 +5,9 @@ import {playerController} from "../../logic/PlayerController";
 import React, {Dispatch, SetStateAction, useEffect} from "react";
 import useKeyPress from "../../hooks/useKeyPress";
 import {appendToLeaderboard} from "../../utils/localstorage-leaderboard";
+import {Link, useNavigate} from "react-router-dom";
+import ArrowRight from "../icons/ArrowRight";
+import ArrowRoundPath from "../icons/ArrowRoundPath";
 
 type Props = {
     board: Board
@@ -18,6 +21,7 @@ type Props = {
 function GameController({ board, gameStats, player, gameOver, setGameOver, setPlayer }: Props) {
     const [dropTime, pauseDropTime, resumeDropTime] = useDropTime(gameStats)
     const keysPressed = useKeyPress()
+    const navigate = useNavigate()
 
     // Game loop
     useInterval(() => {
@@ -27,7 +31,9 @@ function GameController({ board, gameStats, player, gameOver, setGameOver, setPl
     useEffect(() => {
         if (gameOver && dropTime != null) {
             pauseDropTime()
-            appendToLeaderboard(gameStats.level, gameStats.points)
+
+            if (gameStats.points !== 0)
+                appendToLeaderboard(gameStats.level, gameStats.points)
         }
     }, [gameOver])
 
@@ -55,7 +61,36 @@ function GameController({ board, gameStats, player, gameOver, setGameOver, setPl
         );
     };
 
-    return <></>
+    if (dropTime != null)
+        return <></>
+
+    if (gameOver) {
+        return (
+            <div className='absolute inset-0 bg-black/75 z-20 flex flex-col justify-center items-center space-y-12 font-PressStart2P'>
+                <h2 className='text-4xl md:text-6xl'>GAME OVER</h2>
+
+                <div>
+                    Final score: { gameStats.points }
+                </div>
+
+                <div className='grid grid-cols-2 md:gap-3 text-sm md:text-base'>
+                    <div onClick={() => navigate(0)} className='cursor-pointer flex items-center justify-center'>
+                        <ArrowRoundPath width={30} className='mr-3'/> RESTART
+                    </div>
+                    <Link to='/leaderboard' className='flex items-center'>
+                        LEADERBOARD <ArrowRight width={30} className='ml-3 animate-bounceRight'/>
+                    </Link>
+                </div>
+            </div>
+        )
+    }
+
+    return (
+        <div onClick={resumeDropTime} className='absolute inset-0 bg-black/70 z-20 flex justify-center items-center font-PressStart2P text-6xl'>
+            GAME PAUSED
+        </div>
+    )
+
 }
 
 export default GameController;

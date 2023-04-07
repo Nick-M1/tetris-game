@@ -1,9 +1,6 @@
 import NavButtonRight from "../components/shared/NavButtonRight";
-import {motion} from "framer-motion";
+import {Link} from "react-router-dom";
 
-type Props = {
-    onClick: () => void
-}
 
 const TITLE_TEXT = [
     { char: 'T', color: 'text-red-500' },
@@ -14,10 +11,9 @@ const TITLE_TEXT = [
     { char: 'S', color: 'text-purple-500' },
 ]
 
-const Menu = ({ onClick }: Props) => {
-
+export function Component() {
     return (
-        <div className="relative w-full h-full flex flex-col justify-center items-center space-y-12 font-PressStart2P bg-home-background bg-bottom bg-cover">
+        <div className="w-screen h-screen flex flex-col justify-center items-center space-y-12 font-PressStart2P bg-home-background bg-bottom bg-cover">
             <NavButtonRight text='LEADERBOARD' to='/leaderboard'/>
 
             <h1 className='text-6xl md:text-8xl font-bold'>
@@ -26,11 +22,9 @@ const Menu = ({ onClick }: Props) => {
                 )}
             </h1>
 
-            <button className="button-cyan" onClick={onClick}>
+            <Link to='/game' className="button-cyan">
                 START GAME
-            </button>
+            </Link>
         </div>
     )
 }
-
-export default Menu;

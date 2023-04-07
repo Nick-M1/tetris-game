@@ -7,7 +7,7 @@ type Props = {
 }
 export default function NavButtonRight({ text, to }: Props) {
     return (
-        <Link to={to} className='absolute top-0 right-0 group flex items-center p-3'>
+        <Link to={to} className='text-white absolute top-0 right-0 group flex items-center p-3'>
             {text} <ArrowRight width={30} className='ml-2 group-hover:animate-bounceRight'/>
         </Link>
     )

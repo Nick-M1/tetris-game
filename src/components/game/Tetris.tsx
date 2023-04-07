@@ -29,19 +29,19 @@ const Tetris = ({ rows, columns, gameOver, setGameOver }: Props) => {
     return (
         <div className='w-full h-full bg-indigo-950 p-6'>
             <div className='absolute inset-0 bg-activegame-background blur-xs'/>
+            <GameController
+                board={board}
+                gameStats={gameStats}
+                player={player}
+                gameOver={gameOver}
+                setGameOver={setGameOver}
+                setPlayer={setPlayer}
+            />
 
             <div className="relative">
                 <Board board={board} />
                 <GameStats gameStats={gameStats} />
                 <Previews tetrominoes={player.tetrominoes} />
-                <GameController
-                    board={board}
-                    gameStats={gameStats}
-                    player={player}
-                    gameOver={gameOver}
-                    setGameOver={setGameOver}
-                    setPlayer={setPlayer}
-                />
             </div>
         </div>
     );

@@ -1,19 +1,12 @@
 import {getLeaderboard} from "../utils/localstorage-leaderboard";
 import {formatDate, mapToOrdinalSuffix} from "../utils/number-utils";
 import NavButtonLeft from "../components/shared/NavButtonLeft";
-import {motion} from "framer-motion";
 
-export default function LeaderboardPage() {
+export function Component() {
     const leaderboardData = getLeaderboard()
 
     return (
-        <motion.div
-            initial={{ x: "100%" }}
-            animate={{ x: "0%" }}
-            exit={{ x: "100%" }}
-            transition={{ duration: 2 }}
-            className="w-screen h-screen bg-neutral-900 text-white bg-home-background bg-bottom bg-cover overflow-clip"
-        >
+        <div className="w-screen h-screen bg-neutral-900 text-white bg-home-background bg-bottom bg-cover overflow-clip">
             <div className='flex flex-col font-PressStart2P h-[71dvh] overflow-y-auto scrollbar'>
                 <NavButtonLeft text='MAIN MENU' to='/'/>
                 <h1 className='py-12 mx-auto text-3xl'>Leaderboard</h1>
@@ -43,6 +36,6 @@ export default function LeaderboardPage() {
                 </table>
 
             </div>
-        </motion.div>
+        </div>
     )
 }
