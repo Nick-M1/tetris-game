@@ -8,6 +8,7 @@ import {appendToLeaderboard} from "../../utils/localstorage-leaderboard";
 import {Link, useNavigate} from "react-router-dom";
 import ArrowRight from "../icons/ArrowRight";
 import ArrowRoundPath from "../icons/ArrowRoundPath";
+import useTouch from "../../hooks/useTouch";
 
 type Props = {
     board: Board
@@ -19,9 +20,10 @@ type Props = {
 }
 
 function GameController({ board, gameStats, player, gameOver, setGameOver, setPlayer }: Props) {
+    const navigate = useNavigate()
     const [dropTime, pauseDropTime, resumeDropTime] = useDropTime(gameStats)
     const keysPressed = useKeyPress()
-    const navigate = useNavigate()
+    const touchDirection = useTouch()
 
     // Game loop
     useInterval(() => {
@@ -50,6 +52,12 @@ function GameController({ board, gameStats, player, gameOver, setGameOver, setPl
             })
     }, [keysPressed])
 
+    // When touch-event
+    useEffect(() => {
+        if (!gameOver)
+            touchDirection.forEach(key => handleInput(key))
+    }, [touchDirection])
+
     // Pass gamestate to controller
     const handleInput = (action: Action) => {
         playerController(
@@ -60,6 +68,7 @@ function GameController({ board, gameStats, player, gameOver, setGameOver, setPl
             setGameOver
         );
     };
+
 
     if (dropTime != null)
         return <></>
@@ -86,7 +95,7 @@ function GameController({ board, gameStats, player, gameOver, setGameOver, setPl
     }
 
     return (
-        <div onClick={resumeDropTime} className='absolute inset-0 bg-black/70 z-20 flex justify-center items-center font-PressStart2P text-6xl'>
+        <div onClick={resumeDropTime} className='absolute inset-0 bg-black/70 z-20 flex justify-center items-center font-PressStart2P text-6xl px-6'>
             GAME PAUSED
         </div>
     )
