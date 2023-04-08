@@ -119,3 +119,8 @@
     -webkit-text-stroke: 4px black;
   }
 }
+
+
+html, body {
+  overscroll-behavior: none;
+}
