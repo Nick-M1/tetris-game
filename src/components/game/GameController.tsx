@@ -74,7 +74,9 @@ function GameController({ board, gameStats, player, gameOver, setGameOver, setPl
         if (!gameOver && dropTime != null && mouseDown) {
             handleInput(Action.Rotate)
             resetMouseDown()
-        }
+
+        } else if (mouseDown)
+            resetMouseDown()
     }, [mouseDown])
 
 
