@@ -9,6 +9,8 @@ import {Link, useNavigate} from "react-router-dom";
 import ArrowRight from "../icons/ArrowRight";
 import ArrowRoundPath from "../icons/ArrowRoundPath";
 import useTouch from "../../hooks/useTouch";
+import useMousePress from "../../hooks/useMousePress";
+import PauseIcon from "../icons/PauseIcon";
 
 type Props = {
     board: Board
@@ -23,7 +25,8 @@ function GameController({ board, gameStats, player, gameOver, setGameOver, setPl
     const navigate = useNavigate()
     const [dropTime, pauseDropTime, resumeDropTime] = useDropTime(gameStats)
     const keysPressed = useKeyPress()
-    const touchDirection = useTouch()
+    const [touchDirection, fastdrop, setFastdrop] = useTouch()
+    const [mouseDown, resetMouseDown] = useMousePress()
 
     // Game loop
     useInterval(() => {
@@ -58,6 +61,24 @@ function GameController({ board, gameStats, player, gameOver, setGameOver, setPl
             touchDirection.forEach(key => handleInput(key))
     }, [touchDirection])
 
+    // When touch-event
+    useEffect(() => {
+        if (!gameOver && fastdrop) {
+            handleInput(Action.FastDrop)
+            setFastdrop(false)
+        }
+    }, [fastdrop])
+
+    // Mouse press event -> rotation
+    useEffect(() => {
+        if (!gameOver && dropTime != null && mouseDown) {
+            handleInput(Action.Rotate)
+            resetMouseDown()
+        }
+    }, [mouseDown])
+
+
+
     // Pass gamestate to controller
     const handleInput = (action: Action) => {
         playerController(
@@ -71,7 +92,11 @@ function GameController({ board, gameStats, player, gameOver, setGameOver, setPl
 
 
     if (dropTime != null)
-        return <></>
+        return (
+            <button onClick={pauseDropTime} className='absolute top-0 right-0 w-7 h-7 m-2 rounded-full bg-purple-500 flex justify-center items-center'>
+               <PauseIcon width={20} />
+            </button>
+        )
 
     if (gameOver) {
         return (

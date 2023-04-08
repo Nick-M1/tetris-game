@@ -11,7 +11,7 @@ const Board = ({ board }: Props) => {
     };
 
     return (
-        <div className="m-auto grid w-[45vh] h-[90vh] game-board" style={boardStyles}>
+        <div className="w-[34vh] h-[68vh] sm:w-[45vh] sm:h-[90vh] sm:m-auto grid game-board" style={boardStyles}>
             {board.rows.map((row, y) =>
                 row.map((cell, x) => (
                     <BoardCell key={x * board.size.columns + x} cell={cell} />

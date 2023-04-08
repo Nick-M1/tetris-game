@@ -1,41 +1,70 @@
 import {useEffect, useRef, useState} from "react";
 import {Action} from "../logic/Input";
+import _ from "lodash";
 
 
-const MIN_SWIPE_DISTANCE = 25
+const MIN_SWIPE_DISTANCE_X = 25
+
+const MIN_SWIPE_DISTANCE_Y_SLOWDROP = 25
+const MIN_SWIPE_DISTANCE_Y_FASTDROP = 150
 
 
 export default function useTouch() {
-    const touchStart = useRef<number | null>(null)
-    const touchEnd = useRef<number | null>(null)
+    const touchStartX = useRef<number | null>(null)
+    const touchEndX = useRef<number | null>(null)
+    const touchStartY = useRef<number | null>(null)
+    const touchEndY = useRef<number | null>(null)
 
     const [directions, setDirections] = useState<Action[]>([])
 
+    const [fastdrop, setFastdrop] = useState(false)
+    const setFastdropTrue = _.throttle(() => setFastdrop(true), 2_000)
+
 
     const onTouchStart = (e: TouchEvent) => {
-        touchEnd.current = null
-        touchStart.current = (e.touches[0].clientX)
+        touchEndX.current = null
+        touchEndY.current = null
+        touchStartX.current = e.touches[0].clientX
+        touchStartY.current = e.touches[0].clientY
     }
 
     const onTouchMove = (e: TouchEvent) => {
-        touchEnd.current = (e.targetTouches[0].clientX)
+        touchEndX.current = e.targetTouches[0].clientX
+        touchEndY.current = e.targetTouches[0].clientY
 
-        if (!touchStart.current || !touchEnd.current)
-            return
-
-        const distance = touchStart.current - touchEnd.current
-        const isLeftSwipe = distance > MIN_SWIPE_DISTANCE
-        const isRightSwipe = distance < -MIN_SWIPE_DISTANCE
+        if (touchStartX.current && touchEndX.current) {
+            const distance = touchStartX.current - touchEndX.current
+            const isLeftSwipe = distance > MIN_SWIPE_DISTANCE_X
+            const isRightSwipe = distance < -MIN_SWIPE_DISTANCE_X
 
 
-        if (isLeftSwipe) {
-            touchStart.current = (e.touches[0].clientX)
-            setDirections(prevState => [...prevState, Action.Left])
+            if (isLeftSwipe) {
+                touchStartX.current = (e.touches[0].clientX)
+                setDirections(prevState => [...prevState, Action.Left])
+            }
+
+            if (isRightSwipe) {
+                touchStartX.current = e.touches[0].clientX
+                setDirections(prevState => [...prevState, Action.Right])
+            }
         }
 
-        if (isRightSwipe) {
-            touchStart.current = (e.touches[0].clientX)
-            setDirections(prevState => [...prevState, Action.Right])
+        if (touchStartY.current && touchEndY.current) {
+            const distance = touchStartY.current - touchEndY.current
+            const isSwipeDownFastdrop = distance < -MIN_SWIPE_DISTANCE_Y_FASTDROP
+
+            if (isSwipeDownFastdrop) {
+                touchStartY.current = null
+                setFastdropTrue()
+
+            } else {
+                // const isSwipeDownSlowdrop = distance < -MIN_SWIPE_DISTANCE_Y_SLOWDROP
+                //
+                // if (isSwipeDownSlowdrop) {
+                //     // touchStartY.current = e.touches[0].clientY
+                //     setDirections(prevState => [...prevState, Action.SlowDrop])
+                // }
+            }
         }
     }
 
@@ -51,5 +80,5 @@ export default function useTouch() {
         };
     }, []);
 
-    return directions
+    return [directions, fastdrop, setFastdrop] as const
 }

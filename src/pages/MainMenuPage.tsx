@@ -13,7 +13,7 @@ const TITLE_TEXT = [
 
 export function Component() {
     return (
-        <div className="w-screen h-screen flex flex-col justify-center items-center space-y-12 font-PressStart2P bg-home-background bg-bottom bg-cover">
+        <div className="w-screen h-screen flex flex-col justify-center items-center space-y-12 font-PressStart2P bg-black bg-home-background bg-bottom bg-cover">
             <NavButtonRight text='LEADERBOARD' to='/leaderboard'/>
 
             <h1 className='text-6xl md:text-8xl font-bold'>

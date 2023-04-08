@@ -38,7 +38,7 @@ const Tetris = ({ rows, columns, gameOver, setGameOver }: Props) => {
                 setPlayer={setPlayer}
             />
 
-            <div className="relative">
+            <div className="relative max-sm:w-full max-sm:h-full">
                 <Board board={board} />
                 <GameStats gameStats={gameStats} />
                 <Previews tetrominoes={player.tetrominoes} />

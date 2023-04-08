@@ -21,15 +21,18 @@ const Preview = ({ tetromino }: Props) => {
     );
 
     return (
-        <div className="absolute top-0 left-[80vw] md:left-[72.2vw] game-board-light">
-            <div className="grid grid-rows-4 grid-cols-4 w-[120px] h-[120px]">
-                {board.rows.map((row, y) =>
-                    row.map((cell, x) => (
-                        <BoardCell key={x * board.size.columns + x} cell={cell} />
-                    ))
-                )}
+        <>
+            <h3 className='absolute max-sm:bottom-[22vh] max-sm:left-[1.7vh] sm:top-4 sm:right-[4vh] z-[2] max-sm:text-xs font-PressStart2P'>NEXT</h3>
+            <div className="absolute max-sm:bottom-[13vh] sm:top-10 sm:right-0 game-board-light">
+                <div className="grid grid-rows-4 grid-cols-4 w-[8vh] h-[8vh] sm:w-[120px] sm:h-[120px]">
+                    { board.rows.map((row, y) =>
+                        row.map((cell, x) => (
+                            <BoardCell key={x * board.size.columns + x} cell={cell} />
+                        ))
+                    )}
+                </div>
             </div>
-        </div>
+        </>
     );
 };
 
