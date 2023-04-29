@@ -32,6 +32,25 @@ export default function useTouch() {
         touchEndX.current = e.targetTouches[0].clientX
         touchEndY.current = e.targetTouches[0].clientY
 
+        if (touchStartY.current && touchEndY.current) {
+            const distance = touchStartY.current - touchEndY.current
+            const isSwipeDownFastdrop = distance < -MIN_SWIPE_DISTANCE_Y_FASTDROP
+
+            if (isSwipeDownFastdrop) {
+                touchStartY.current = null
+                setFastdropTrue()
+                return
+
+            } else {
+                // const isSwipeDownSlowdrop = distance < -MIN_SWIPE_DISTANCE_Y_SLOWDROP
+                //
+                // if (isSwipeDownSlowdrop) {
+                //     // touchStartY.current = e.touches[0].clientY
+                //     setDirections(prevState => [...prevState, Action.SlowDrop])
+                // }
+            }
+        }
+
         if (touchStartX.current && touchEndX.current) {
             const distance = touchStartX.current - touchEndX.current
             const isLeftSwipe = distance > MIN_SWIPE_DISTANCE_X
@@ -46,24 +65,6 @@ export default function useTouch() {
             if (isRightSwipe) {
                 touchStartX.current = e.touches[0].clientX
                 setDirections(prevState => [...prevState, Action.Right])
-            }
-        }
-
-        if (touchStartY.current && touchEndY.current) {
-            const distance = touchStartY.current - touchEndY.current
-            const isSwipeDownFastdrop = distance < -MIN_SWIPE_DISTANCE_Y_FASTDROP
-
-            if (isSwipeDownFastdrop) {
-                touchStartY.current = null
-                setFastdropTrue()
-
-            } else {
-                // const isSwipeDownSlowdrop = distance < -MIN_SWIPE_DISTANCE_Y_SLOWDROP
-                //
-                // if (isSwipeDownSlowdrop) {
-                //     // touchStartY.current = e.touches[0].clientY
-                //     setDirections(prevState => [...prevState, Action.SlowDrop])
-                // }
             }
         }
     }
