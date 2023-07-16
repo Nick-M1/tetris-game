@@ -1,6 +1,7 @@
 import {movePlayer} from "./PlayerController";
 import {defaultCell} from "./Cell";
 import {transferToBoard} from "./Tetrominoes";
+import {PIECE_DROPPED_AUDIO} from "../constants/audio-constants";
 
 
 export function buildBoard(rows: number, columns: number): Board {
@@ -71,6 +72,8 @@ export const nextBoard = (board: Board, player: Player, resetPlayer: () => void,
             rows,
             tetromino.shape
         );
+    } else {
+        new Audio(PIECE_DROPPED_AUDIO).play()
     }
 
     // Check for cleared lines

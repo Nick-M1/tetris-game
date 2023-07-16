@@ -1,4 +1,5 @@
 import { useState, useCallback } from "react";
+import {ROW_CLEARED_AUDIO} from "../constants/audio-constants";
 
 type HookReturn = [
     GameStats,
@@ -32,6 +33,8 @@ export function useGameStats(): HookReturn {
                 points
             };
         });
+
+        new Audio(ROW_CLEARED_AUDIO).play()     //todo Extra sound if lines > 1 ???
     }, []);
 
     return [gameStats, addLinesCleared];
