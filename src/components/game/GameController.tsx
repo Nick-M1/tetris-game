@@ -11,6 +11,7 @@ import ArrowRoundPath from "../icons/ArrowRoundPath";
 import useTouch from "../../hooks/useTouch";
 import useMousePress from "../../hooks/useMousePress";
 import PauseIcon from "../icons/PauseIcon";
+import useAudio from "../../hooks/useAudio";
 
 type Props = {
     board: Board
@@ -27,6 +28,8 @@ function GameController({ board, gameStats, player, gameOver, setGameOver, setPl
     const keysPressed = useKeyPress()
     const [touchDirection, fastdrop, setFastdrop] = useTouch()
     const [mouseDown, resetMouseDown] = useMousePress()
+
+    useAudio(dropTime == null, gameOver)
 
     // Game loop
     useInterval(() => {
